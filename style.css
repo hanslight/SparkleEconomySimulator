@@ -1,0 +1,396 @@
+* {
+	outline: none;
+}
+body {
+	background: #132;
+	margin: 0;
+	margin-bottom: 44px;
+	color: #C6E1D0;
+}
+input[type="number"] {
+	height: 32px;
+	line-height: 32px;
+	margin: 0;
+	padding: 0 8px;
+	width: 44px;
+	border: none;
+	font-size: 15px;
+	text-align: right;
+	background: #010C08;
+	color: #C6E1D0;
+}
+.floatRight {
+	float: right;
+}
+
+
+
+/* ////////////// TEMPLETS ////////////// */
+
+
+.btn {
+	border: solid 2px #C6E1D0;
+	background: none;
+	color: #C6E1D0;
+	font-size: 15px;
+	text-align: center;
+	margin: 8px 12px;
+	padding: 8px 0;
+}
+.btn:active {
+	color: #05271B;
+	background-color: #C6E1D0;
+}
+.btnPrimary {
+	border: none;
+	background: #C6E1D0;
+	color: #05271B;
+	font-size: 20px;
+	text-align: center;
+	margin: 8px 12px;
+	padding: 20px 0;
+}
+.btnPrimary:active {
+	background-color: #AF7562;
+}
+
+.btnBack {
+	display: inline-block;
+	height: 100%;
+	line-height: 56px;
+	padding: 0 20px 0 12px;
+}
+.btnBack:active {
+	color: #05271B;
+	background-color: #C6E1D0;
+}
+
+.btnStepper {
+	display: inline-block;
+	border: none;
+	background: #C6E1D0;
+	color: #05271B;
+	font-size: 20px;
+	text-align: center;
+	height: 32px;
+	width: 24px;
+	line-height: 32px;
+	vertical-align: middle;
+}
+.btnStepper:active {
+	background-color: #AF7562;
+}
+
+
+
+
+
+
+
+.childHeader {
+	height: 56px;
+	background: #05271B;
+}
+.childHeader .title {
+	font-size: 16px;
+}
+.homepageHeader {
+	background: none;
+	padding-bottom: 20px;
+}
+.homepageHeader .bigAvatar {
+	font-size: 50px;
+	text-align: center;
+}
+.homepageHeader .userName {
+	font-size: 13px;
+	text-align: center;
+}
+
+
+
+
+#index header {
+	font-size: 18px;
+	padding: 12px;
+}
+.childPage {
+	/*margin-top: 56px;*/
+}
+
+
+
+
+
+.dashboard {
+	padding: 12px;
+	margin-bottom: 10px;
+	background: #05271B;
+	font-size: 11px;
+	color: #54655B;
+}
+.dashboard .dashboardItem {
+	font-size: 13px;
+	color: #C6E1D0;
+	display: inline-block;
+	margin: 18px 30px 10px 0;
+}
+.dashboard .dashboardItemPrimary {
+	font-size: 30px;
+	color: #C6E1D0;
+	display: block;
+	text-align: center;
+}
+.dashboard .dashboardLine {
+	font-size: 13px;
+	color: #C6E1D0;
+	height: 32px;
+	line-height: 32px;
+	padding: 8px 0;
+}
+.dashboard .dashboardLine input {
+	vertical-align: middle;
+}
+.dashboard .dashboardLine .unit {
+	display: inline-block;
+	position: absolute;
+	right: 45px;
+	color: #54655B;
+}
+.dashboard .dashboardLine .unitNumInput {
+	width: 26px;
+	padding-right: 25px;
+}
+.dashboard .dashboardLine .numInput {
+	width: 32px;
+}
+
+
+
+
+
+.giftWindow {
+	list-style-type: none;
+	margin: 0;
+	padding: 12px;
+	text-align: center;
+}
+.giftWindow li{
+	display: inline-block;
+	width: 28%;
+	margin-right: 12px;
+}
+.giftWindow .giftImg {
+	display: inline-block;
+	font-size: 44px;
+	text-align: center;
+	padding: 12px 0;
+	width: 100%;
+	background: #05271B;
+}
+.giftWindow .btn {
+	margin: 8px 0;
+}
+
+
+.giftEditor {
+	list-style-type: none;
+	margin: 0;
+	padding: 12px;
+	text-align: center;
+}
+.giftEditor li{
+	display: inline-block;
+	width: 28%;
+	margin-right: 12px;
+}
+.giftEditor .giftImg {
+	display: inline-block;
+	font-size: 44px;
+	text-align: center;
+	padding: 12px 0;
+	width: 100%;
+	background: #05271B;
+}
+.giftEditor input {
+	margin: 8px 0;
+	width: 50px;
+}
+
+
+
+.giftBox {
+	list-style-type: none;
+	margin: 0;
+	padding: 12px;
+	text-align: center;
+}
+.giftBox li{
+	display: inline-block;
+	width: 28%;
+	margin-right: 12px;
+}
+.giftBox .giftImg {
+	display: inline-block;
+	font-size: 44px;
+	text-align: center;
+	padding: 12px 0;
+	width: 100%;
+	background: #05271B;
+	position: relative;
+}
+.giftBox .giftReserve {
+	font-size: 12px;
+	color: #05271B;
+	background: #C6E1D0;
+	padding: 2px 8px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	vertical-align: bottom;
+}
+.giftBox .btn {
+	margin: 8px 0;
+}
+
+
+
+.userTabs {
+
+	text-align: center;
+}
+.userTabs .userTab {
+	display: inline-block;
+	width: 30%;
+	text-align: center;
+}
+.userTabs input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+.userTabs input:checked + .userTab {
+	background: #05271B;
+}
+.userTabs input:checked + .userTab .tUserAvatar {
+	font-size: 32px;
+}
+.userTabs input:checked + .userTab .tUserName {
+	color: #C6E1D0;
+}
+.userTabs .userTab .tUserAvatar {
+	font-size: 20px;
+	line-height: 48px;
+	margin-top: 6px;
+}
+.userTabs .userTab .tUserName {
+	font-size: 13px;
+	margin-bottom: 12px;
+	color: #54655B;
+}
+
+
+/* //////////////// INDEX //////////////// */
+.enter, .userEnter {
+	padding: 20px 0;
+}
+
+
+
+/* /////////////// CHILD PAGES //////////////// */
+#desk {
+
+}
+
+
+/* ////////////////////////////////// */
+#ediUser {
+
+}
+
+
+/* ////////////////////////////////// */
+#ediOfficer {
+
+}
+
+
+/* ////////////////////////////////// */
+#exchUser {
+
+}
+
+
+/* ////////////////////////////////// */
+#exchOfficer {
+
+}
+
+
+/* ////////////////////////////////// */
+#storeUser {
+
+}
+
+
+/* ////////////////////////////////// */
+#storeOfficer {
+
+}
+
+
+/* ////////////////////////////////// */
+#homepage {
+
+}
+
+
+
+
+
+
+
+
+
+/* ////////////////////////////////// */
+footer {
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	background: #132;
+	padding: 8px 0;
+	vertical-align: bottom;
+}
+footer .cUserAvatar {
+	margin-left: 12px;
+	font-size: 16px;
+}
+footer select {
+	padding: 8px;
+	border: none;
+	background: #C6E1D0;
+	color: #05271B;
+}
+footer .logo {
+	float: right;
+	margin-right: 12px;
+	color: #AF7562;
+	font-size: 20px;
+}
+
+
+.largebtn {
+	padding: 44px;
+	font-size: 20px;
+}
+
+.toast {
+	position: fixed;
+	top: 5%;
+	right: 0;
+	background: rgba(175, 117, 98, 0.95);
+	color: white;
+	font-size: 15px;
+	display: block;
+	padding: 12px 15px;
+}

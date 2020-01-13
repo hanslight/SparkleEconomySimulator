@@ -1,430 +1,170 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="zh-CN">
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html lang='zh-CN'>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<title>经济系统模拟</title>
-	<script type="text/javascript" src="jquery-1.10.2.min.js" ></script>
-
-	<style type="text/css">
-		* {outline: none;border-radius: 2px;}
-		body {background: #132;margin: 12px;}
-		.button {display:inline-block;padding:5px 8px;margin-right:4px;font-size: 15px;background: #95ab9e;border: none;color: #05271b;}
-		.button:active {background: #687b70;}
-		.primary {font-weight: bold;}
-		div {margin: 4px 0;}
-		h2 {display: inline-block;margin:0;line-height: 44px;color: #95ab9e;}
-		.toast {display: inline-block;margin-left:12px;font-size: 14px;color: #af7562;}
-		p {color: #95ab9e;font-size: 15px;}
-		span {color: #95ab9e;font-size: 15px;}
-		input {border: none;background: #05271b;font-size: 15px;padding: 5px;margin: 2px 8px 2px 2px;color:#95ab9e;width: 80px;}
-		input:disabled {color:#54655b;}
-		hr {border: 1px solid #95ab9e;}
-		#inputContAmt {font-weight: bold;}
-	</style>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'>
+	<title>经济系统模拟2</title>
+	<script type='text/javascript' src='jquery-1.10.2.min.js' ></script>
+	<script type='text/javascript' src='data.js' ></script>
+	<script type='text/javascript' src='core.js' ></script>
+	<script type='text/javascript' src='ui.js' ></script>
+	<script type='text/javascript' src='trigger.js' ></script>
+	<link href='style.css' rel='stylesheet' type='text/css' />
 </head>
 
-
-
 <body>
-<div><h2>SPARKLE</h2><span id="toastSparkle" class='toast'></span></div>
-<div><span><b>Total Content Amount </b></span><input id="inputTContAmt" type="number" value="0" disabled/></div>
-<div><span>Sparkle Content Amount </span><input id="inputSContAmt" type="number" value="0" disabled/></div>
-<div class="button primary" id="addSCont1">Produce Content +1</div><div class="button primary" id="addSCont100">+100</div>
-<div><span>🔥Coin hold </span><input id="inputCoinAmt" type="number" value="0" disabled/> <span>💵Cash flow </span><input id="inputCashFlow" type="number" value="1" disabled /></div>
-<div><span>💱Exchange rate </span><input id="inputExRt" type="number" value="1"  /><span>🔥/💵</span></div>
-<div><span>Normal content price </span><input id="inputNCPrice" type="number" value="1"  /><span>🔥</span></div>
-<div><span>Good content price </span><input id="inputGCPrice" type="number" value="10"  /><span>🔥</span><div class="button" id="cPay">Pay 🔥 for 1 Good Content</div></div>
-<div class="button" id="delCCont1">Delete Content -1</div>
-
-<hr><hr>
-<div><h2>ME</h2><span id="toastU1" class='toast'></span></div>
-<div><span>My Content amount </span><input id="inputU1ContAmt" type="number" value="0" disabled/></div>
-<div class="button primary" id="add1U1">Produce Content +1</div><div class="button primary" id="add100U1">+100</div>
-<div><span>🔥Coin </span><input id="inputU1Coin" type="number" value="1" disabled /> <span>💵Cash </span><input id="inputU1Cash" type="number" value="1" disabled /></div>
-<div><span>Buy 🔥Coin </span><input id="inputU1Buy" type="number" value="0" /><div class="button" id="U1buy">BUY🔥</div></div>
-<div><span>Sell 🔥Coin </span><input id="inputU1Sell" type="number" value="0" /><div class="button" id="U1sell">SELL🔥</div></div>
-
-<hr>
-<div><h2>USER 2</h2><span id="toastU2" class='toast'></span></div>
-<div><span>U2 Content amount </span><input id="inputU2ContAmt" type="number" value="0" disabled/></div>
-<div class="button primary" id="add1U2">Produce Content +1</div><div class="button primary" id="add100U2">+100</div>
-<div><span>🔥Coin </span><input id="inputU2Coin" type="number" value="1" disabled /> <span>💵Cash </span><input id="inputU2Cash" type="number" value="1" disabled /></div>
-<div><span>Buy 🔥Coin </span><input id="inputU2Buy" type="number" value="0" /><div class="button" id="U2buy">BUY🔥</div></div>
-<div><span>Sell 🔥Coin </span><input id="inputU2Sell" type="number" value="0" /><div class="button" id="U2sell">SELL🔥</div></div>
 
 
+<header class='childHeader' style='display:none;'>
+	<span class='btnBack'>❮</span><span class='title'>title</span>
+</header>
+<header class='homepageHeader' style='display:none;'>
+	<span class='btnBack'>❮</span>
+	<div class='bigAvatar'>bigAvatar</div>
+	<div class='userName'>name</div>
+</header>
 
 
-<script type="text/javascript">
-var totalContent = 0,
-	sContentAmount = 0,
-	sCashAmount = 10000,
-	sCoinHold,
-	sExRate = 1,
-	NCP,GCP,
-	SGCAmoumt = 0;
-var user1ContentAmount = 0,
-	user1Cash = 100,
-	user1Coin = 0
-	user1GCAmount = 0;
-var user2ContentAmount = 0,
-	user2Cash = 100,
-	user2Coin = 0
-	user2GCAmount = 0;
+<!-- index -->
+<div id='index'>
+<header>SPARKLE 经济系统模拟</header>
+
+<section>
+	<div class='btn enter largebtn' id='enterDesk'>📋 工作台</div>
+	<div class='btn userEnter' id='enterUserA'>userA</div>
+	<div class='btn userEnter' id='enterUserB'>userB</div>
+	<div class='btn enter' id='enterEdiUser'>📚 编辑部</div>
+	<div class='btn enter' id='enterEdiOfficer'>📚 编辑部</div>
+	<div class='btn enter' id='enterStoreUser'>🏪 礼品商店</div>
+	<div class='btn enter' id='enterStoreOfficer'>🏪 礼品商店</div>
+	<div class='btn enter' id='enterExchUser'>🏢 交易所</div>
+	<div class='btn enter' id='enterExchOfficer'>🏢 交易所</div>
+</section>
+</div>
+
+<!-- desk -->
+<div class='childPage' id='desk' style='display:none;'>
+	<section class='dashboard'>资源看板<div id='d1-1'></div></section>
+	<section class='content'>
+		<div class='btnPrimary largebtn' id='btnCreate1'>发布✉️ +1</div>
+		<div class='btnPrimary' id='btnCreateRandom'>发布✉️ +???</div>
+		<div class='btn'>删除✉️ -1</div>
+		<div class='btn'>删除💌 -1</div>
+	</section>
+</div>
+
+<!-- homepage -->
+<div class='childPage' id='homepageA' style='display:none;'>
+	<section class='dashboard'>资源看板<div id='d2-1'></div></section>
+	<section class='content'>
+		<ul class='giftBox'></ul>
+	</section>
+</div>
+
+<div class='childPage' id='homepageB' style='display:none;'>
+	<section class='dashboard'>资源看板<div id='d2-2'></div></section>
+	<section class='content'>
+		<ul class='giftBox'></ul>
+	</section>
+</div>
 
 
+<!-- editorial user -->
+<div class='childPage' id='ediUser' style='display:none;'>
+	<section class='dashboard'>资源看板<div id='d3-1'></div></section>
+	<section class='content'>
+		<div class='btnPrimary' id='btnSubmit'>投稿 🔥1</div>
+	</section>
+</div>
 
+<!-- editorial officer -->
+<div class='childPage' id='ediOfficer' style='display:none;'>
+	<section class='dashboard'>国库<b><div id='d4-1'></div></b></section>
+	<section class='userTabs'></section>
+	<section class='dashboard'>用户资源<div id='d4-2'></div></section>
+	<section class='content'>
+		<div class='btnPrimary' id='btnUpgradeContent'><span style='font-size: 14px;'>✉️ </span><span style='font-size: 20px;'>→ 💌</span></div>
+		<div class='btn' id='btnDegradeContent'><span style='font-size: 12px;'>✉️ </span><span style='font-size: 16px;'>← 💌</span></div>
+		<div class='btn' id='btnOfficerDelNC'>删除✉️ -1</div>
+		<div class='btn' id='btnOfficerDelGC'>删除💌 -1</div>
+	</section>
+</div>
 
+<!-- exchange user -->
+<div class='childPage' id='exchUser' style='display:none;'>
+	<section class='dashboard'>汇率<div id='d5-1'></div></section>
+	<section class='dashboard'>资源看板<div id='d5-2'></div></section>
+	<section class='content'>
+		<div class='btnPrimary largebtn' id='btnBuyCoin'>买入 🔥+1</div>
+		<div class='btnPrimary' id='btnSellCoin'>提现 🔥-1</div>
+	</section>
+</div>
 
-/////////////////////// 核心 ///////////////////////////
-// 核心：更新显示
-var updateContentAmount = function() {
-	totalContent = sContentAmount + user1ContentAmount + user2ContentAmount;
-	$("#inputTContAmt").val(totalContent);
-	$("#inputSContAmt").val(sContentAmount);
-	$("#inputU1ContAmt").val(user1ContentAmount);
-	$("#inputU2ContAmt").val(user2ContentAmount);
-};
-var updateCoins = function() {
-	$("#inputCoinAmt").val(sCoinHold);
-	$("#inputU1Coin").val(user1Coin);
-	$("#inputU2Coin").val(user2Coin);
-};
-var updateCash = function() {
-	$("#inputCashFlow").val(sCashAmount);
-	$("#inputU1Cash").val(user1Cash);
-	$("#inputU2Cash").val(user2Cash);
-};
+<!-- exchange officer -->
+<div class='childPage' id='exchOfficer' style='display:none;'>
+	<section class='dashboard'>汇率 🔥/💵<div id='d6-1'></div></section>
+	<section class='dashboard'>国库<b><div id='d6-2'></div></b></section>
+	<section class='dashboard'>投稿和稿酬<div id='d6-3'>
+		<span class='dashboardItem'>投稿费用 <input type='number' value='1' /><span class='unit'>🔥</span></span>
+		<!-- <span class='dashboardItem'>✉️ <input type='number' value='1' /><span class='unit'>🔥</span></span> -->
+		<span class='dashboardItem'>💌稿酬 <input type='number' value='10' /><span class='unit'>🔥</span></span>
+	</div></section>
+	<section class='dashboard'>策略<div id='d6-4'>
+		<div class='dashboardLine'>
+			<label>普通内容产🔥</label>
+			<span class='floatRight'><div class='switch'><span class='key0'>不产🔥</span><span class='key1'>产🔥但不发放</span></div></span>
+		</div>
+		<div class='dashboardLine'>
+			<label>普通内容产🔥量</label>
+			<span class='floatRight'><div class='btnStepper' id='NCPMinus'>-</div><input class='unitNumInput' type='number' value='1' /><span class='unit'>🔥</span><div class='btnStepper' id='NCPAdd'>+</div></span>
+		</div>
+		<div class='dashboardLine'>
+			<label>删除内容销毁🔥</label>
+			<span class='floatRight'><div class='switch'><span class='key0'>不删🔥</span><span class='key1'>销毁持有者🔥</span></div></span>
+		</div>
+		<div class='dashboardLine'>
+			<label><input type='checkbox' /> 固定汇率 🔥/💵</label>
+			<span class='floatRight'><div class='btnStepper' id='exMinus'>-</div><input class='numInput' type='number' value='1.0' /><div class='btnStepper' id='exAdd'>+</div></span>
+		</div>
+		<div class='dashboardLine'>
+			<label><input type='checkbox' /> 送礼抽成</label>
+			<span class='floatRight'><div class='btnStepper' id='giftRakeMinus'>-</div><input class='unitNumInput' type='number' value='50' /><span class='unit'>%</span><div class='btnStepper' id='giftRakeAdd'>+</div></span>
+		</div>
+		<div class='dashboardLine'>
+			<label><input type='checkbox' /> 提现抽成</label>
+			<span class='floatRight'><div class='btnStepper' id='withdrawRakeMinus'>-</div><input class='unitNumInput' type='number' value='50' /><span class='unit'>%</span><div class='btnStepper' id='withdrawRakeAdd'>+</div></span>
+		</div>
+	</div></section>
+</div>
 
-// 核心：创作内容
-var createContent = function(amount,user) {
-	if (user) {
-		switch (user) {
-			case "U1":
-				user1ContentAmount += amount;
-				newCoin(amount*NCP);
-				break;
-			case "U2":
-				user2ContentAmount += amount;
-				newCoin(amount*NCP);
-				break;
-		}
-	}
-	else {
-		sContentAmount += amount;
-		newCoin(amount*NCP);
-	}
-	updateContentAmount();
-};
+<!-- store user -->
+<div class='childPage' id='storeUser' style='display:none;'>
+	<section class='dashboard'>资源看板<div id='d7-1'></div></section>
+	<section class='content'>
+		<ul class='giftWindow'></ul>
+	</section>
+</div>
 
-// 核心：删除内容（随机）
-var deleteContent = function() {
-	var user = Math.floor(Math.random()*3);
-	var quality = Math.floor(Math.random()*2);
-	var p = quality > 0 ? GCP:NCP;
-	switch (user) {
-		case 0:
-			if (sContentAmount) {
-				sContentAmount--;
-				destroyCoin(1*p);
-				toast("Content -1");
-			}
-			break;
-		case 1:
-			if (user1ContentAmount) {
-				user1ContentAmount--;
-				destroyCoin(1*p);
-				toast("Content -1","U1");
-			} else if (sContentAmount) {
-				sContentAmount--;
-				destroyCoin(1*p);
-				toast("Content -1");
-			}
-			break;
-		case 2:
-			if (user2ContentAmount) {
-				user2ContentAmount--;
-				destroyCoin(1*p);
-				toast("Content -1","U2");
-			} else if (sContentAmount) {
-				sContentAmount--;
-				destroyCoin(1*p);
-				toast("Content -1");
-			}
-			break;
-	}
-	updateContentAmount();
-}
-
-// 核心：生成并发放coin
-var newCoin = function(amount,user) {
-	switch (user) {
-		case "U1":
-			user1Coin += amount;
-			toast("🔥 +"+amount,"U1");
-			break;
-		case "U2":
-			user2Coin += amount;
-			toast("🔥 +"+amount,"U2");
-			break;
-		default:
-			sCoinHold += amount;
-			toast("🔥 +"+amount);
-	}
-	updateCoins();
-};
-// 销毁coin
-var destroyCoin = function(amount,user) {
-	switch (user) {
-		case "U1":
-			user1Coin -= amount;
-			toast("🔥 -"+amount,"U1");
-			break;
-		case "U2":
-			user2Coin -= amount;
-			toast("🔥 -"+amount,"U2");
-			break;
-		default:
-			sCoinHold -= amount;
-			toast("🔥 -"+amount);
-	}
-	updateCoins();
-};
-
-// 核心：现金转账
-var transferCash = function(amount,from,to) {
-	if (amount) {
-		if (from && to) {
-			// 扣款
-			switch (from) {
-				case "U0":
-					sCashAmount -= amount;
-					toast("💵 -"+amount);
-					break;
-				case "U1":
-					user1Cash -= amount;
-					toast("💵 -"+amount,"U1");
-					break;
-				case "U2":
-					user2Cash -= amount;
-					toast("💵 -"+amount,"U2");
-			}
-			// 打款
-			switch (to) {
-				case "U0":
-					sCashAmount += amount;
-					toast("💵 +"+amount);
-					break;
-				case "U1":
-					user1Cash += amount;
-					toast("💵 +"+amount,"U1");
-					break;
-				case "U2":
-					user2Cash += amount;
-					toast("💵 +"+amount,"U2");
-			}
-			updateCash();
-		}
-	}
-}
+<!-- store officer -->
+<div class='childPage' id='storeOfficer' style='display:none;'>
+	<section class='content'>
+		<ul class='giftEditor'></ul>
+	</section>
+</div>
 
 
 
-
-////////////////////////// 初始化 ///////////////////////////
-// 获取汇率
-sExRate = $("#inputExRt").val();
-// 获取内容定价
-NCP = $("#inputNCPrice").val();
-GCP = $("#inputGCPrice").val();
-// 初始化总量显示
-updateContentAmount();
-// （初始）货币总量=生产总量
-sCoinHold = sContentAmount*NCP;
-// 初始化硬币显示
-updateCoins();
-// 初始化现金流显示
-updateCash();
+<footer>
+	<span class='cUserAvatar'>cUserAvatar</span>
+	<span class='select'></span>
+	<span class='logo'>❇</span>
+</footer>
 
 
 
 
 
-
-
-
-
-
-
-//////////////////////// UI ///////////////////////
-// UI toast方法
-var cleartoast0 = function() {$("#toastSparkle").html("")};
-var cleartoast1 = function() {$("#toastU1").html("")};
-var cleartoast2 = function() {$("#toastU2").html("")};
-var timer0,timer1,timer2;
-$(".toast").bind("click",function(){$(this).html("")});
-var toast = function(content,user) {
-	if (!content) {
-		content = "ℹ️";
-	}
-	if (user == "U1") {
-		var old = $("#toastU1").html()=="" ? "":",&nbsp;"+$("#toastU1").html();
-		$("#toastU1").html(content+old);
-		clearTimeout(timer1);
-		timer1 = setTimeout(cleartoast1,1800);
-	}
-	else if (user == "U2") {
-		var old = $("#toastU2").html()=="" ? "":",&nbsp;"+$("#toastU2").html();
-		$("#toastU2").html(content+old);
-		clearTimeout(timer2);
-		timer2 = setTimeout(cleartoast2,1800);
-	}
-	else {
-		var old = $("#toastSparkle").html()=="" ? "":",&nbsp;"+$("#toastSparkle").html();
-		$("#toastSparkle").html(content+old);
-		clearTimeout(timer0);
-		timer0 = setTimeout(cleartoast0,1800);
-	}
-}
-
-
-
-
-
-
-
-/////////////// 绑定控件动作 ////////////////
-// 创作类
-// 创作按钮
-$("#addSCont1").bind("click",function(){createContent(1);toast("Content +1")});
-$("#addSCont100").bind("click",function(){createContent(100);toast("Content +100")});
-$("#add1U1").bind("click",function(){createContent(1,"U1");toast("Content +1","U1")});
-$("#add100U1").bind("click",function(){createContent(100,"U1");toast("Content +100","U1")});
-$("#add1U2").bind("click",function(){createContent(1,"U2");toast("Content +1","U2")});
-$("#add100U2").bind("click",function(){createContent(100,"U2");toast("Content +100","U2")});
-// 删除创作按钮
-$("#delCCont1").bind("click",function(){deleteContent()});
-// 购买优秀内容按钮（用户中随机）
-$("#cPay").bind("click",function(){
-	if (sCoinHold >= 1*GCP && totalContent) {
-		for (usern=0, isAwesome = false; isAwesome == false; usern = 1+Math.floor(Math.random()*2)) {
-			switch (usern) {
-				case 1:
-					isAwesome = user1ContentAmount >= 1 ? true : false;
-					break;
-				case 2:
-					isAwesome = user2ContentAmount >= 1 ? true : false;
-			}
-		}
-		// 扣币
-		destroyCoin(1*GCP);
-		// 付币
-		newCoin(1*GCP, "U"+usern);
-		GCAmount ++;
-	} else {
-		toast("Cannot afford.");
-	}
-});
-
-
-
-// 经济类
-// 设定汇率
-$("#inputExRt").bind("blur", function() {
-	sExRate = $("#inputExRt").val();
-});
-// 设定内容定价
-$("#inputNCPrice").bind("blur", function() {
-	NCP = $("#inputNCPrice").val();
-});
-$("#inputGCPrice").bind("blur", function() {
-	GCP = $("#inputGCPrice").val();
-});
-
-// 购币
-$("#U1buy").bind("click",function(){
-	var ex = sExRate;
-	var getCoin = $("#inputU1Buy").val()*1;
-	if (user1Cash >= getCoin/ex) { // 我有没有钱
-		if (sCoinHold >= getCoin) { // 他有没有币
-			// 币流动
-			destroyCoin(getCoin);
-			newCoin(getCoin,"U1");
-			// 现金流动
-			transferCash(getCoin/ex,"U1","U0");
-		} else {
-			toast("🔥Coin sold out."); // 没币
-		}
-	} else {
-		toast("Cannot afford.","U1"); // 没钱
-	}
-	$("#inputU1Buy").val(0);
-});
-$("#U2buy").bind("click",function(){
-	var ex = sExRate;
-	var getCoin = $("#inputU2Buy").val()*1;
-	if (user2Cash >= getCoin/ex) { // 我有没有钱
-		if (sCoinHold >= getCoin) { // 他有没有币
-			// 币流动
-			destroyCoin(getCoin);
-			newCoin(getCoin,"U2");
-			// 现金流动
-			transferCash(getCoin/ex,"U2","U0");
-		} else {
-			toast("🔥Coin sold out."); // 没币
-		}
-	} else {
-		toast("Cannot afford.","U2");
-	}
-	$("#inputU2Buy").val(0);
-});
-
-// 卖币
-$("#U1sell").bind("click",function(){
-	var ex = sExRate;
-	var sellCoin = $("#inputU1Sell").val()*1;
-	if (user1Coin >= sellCoin) { // 我有没有币
-		if (sCashAmount >= sellCoin/ex) { // 他有没有钱
-			// 币流动
-			destroyCoin(sellCoin,"U1");
-			newCoin(sellCoin);
-			// 现金流动
-			transferCash(sellCoin/ex,"U0","U1");
-		} else {
-			toast("Not enough 💵") //给不起钱
-		}
-	} else {
-		toast("Not enough 🔥.","U1"); // 没币
-	}
-	$("#inputU1Sell").val(0);
-});
-$("#U2sell").bind("click",function(){
-	var ex = sExRate;
-	var sellCoin = $("#inputU2Sell").val()*1;
-	if (user2Coin >= sellCoin) { // 我有没有币
-		if (sCashAmount >= sellCoin/ex) { // 他有没有钱
-			// 币流动
-			destroyCoin(sellCoin,"U2");
-			newCoin(sellCoin);
-			// 现金流动
-			transferCash(sellCoin/ex,"U0","U2");
-		} else {
-			toast("Not enough 💵") //给不起钱
-		}
-	} else {
-		toast("Not enough 🔥.","U2"); // 没币
-	}
-	$("#inputU2Sell").val(0);
-});
-
-
-
-
-
-
-</script>
-
+<div class='toast' style='display: none;'></div>
 
 
 
